@@ -86,12 +86,12 @@
 <script>
 export default {
   name: 'ult-ui',
-  data() {
+  data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  created() {
+  created () {
     this.$axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
       .then(response => (console.log(response)))
   }
