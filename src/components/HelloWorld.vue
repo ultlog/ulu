@@ -61,7 +61,7 @@
     </el-table-column>
   </el-table>
 
-  <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">load more</el-button>
+  <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail && tableData.length>0">load more</el-button>
 </div>
 </template>
 
