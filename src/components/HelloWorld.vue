@@ -56,7 +56,7 @@
       label="日志信息">
     </el-table-column>
     <el-table-column
-      prop="uuid"
+      prop="stack"
       label="堆栈信息">
     </el-table-column>
   </el-table>
