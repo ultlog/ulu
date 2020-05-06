@@ -25,44 +25,54 @@
       </el-form-item>
     </el-form>
 
-  <el-table
-    :data="tableData"
-    border
-    style="width: 100%">
-    <el-table-column
-      type="index"
-      width="50">
-    </el-table-column>
-    <el-table-column
-      prop="project"
-      label="项目"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="module"
-      label="模块"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="uuid"
-      label="服务唯一标识">
-    </el-table-column>
-    <el-table-column
-      prop="level"
-      label="日志级别">
-    </el-table-column>
-    <el-table-column
-      prop="message"
-      label="日志信息">
-    </el-table-column>
-    <el-table-column
-      prop="stack"
-      label="堆栈信息">
-    </el-table-column>
-  </el-table>
+    <el-table
+      :data="tableData"
+      border
+      :row-style="{height:'20px'}"
+      style="width: 100%">
+      <el-table-column
+        type="index"
+        width="50">
+      </el-table-column>
+      <el-table-column
+        prop="project"
+        label="项目"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="module"
+        label="模块"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="uuid"
+        label="服务唯一标识">
+      </el-table-column>
+      <el-table-column
+        prop="level"
+        label="日志级别">
+      </el-table-column>
+      <el-table-column
+        prop="message"
+        label="日志信息">
+      </el-table-column>
+      <el-table-column
 
-  <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail && tableData.length>0">load more</el-button>
-</div>
+        prop="stack"
+        label="堆栈信息">
+
+        <template slot-scope="scope">
+          <el-tooltip class="item" effect="dark" placement="left">
+            <div v-html="alertStack(scope.row.stack)" slot="content"></div>
+            <div>{{scope.row.stack.substring(0,40)+'...'}}</div>
+          </el-tooltip>
+        </template>
+
+      </el-table-column>
+    </el-table>
+
+    <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail && tableData.length>0">load more</el-button>
+  </div>
 </template>
 
 <script>
@@ -108,6 +118,10 @@ export default {
     onSubmit () {
       this.query.offset = 0
       this.getData()
+    },
+
+    alertStack (stack) {
+      return stack.split(';').join('<br />')
     },
 
     getData () {
