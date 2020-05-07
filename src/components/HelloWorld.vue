@@ -21,6 +21,16 @@
         <el-input v-model="query.stack" clearable placeholder="stack"></el-input>
       </el-form-item>
       <el-form-item>
+        <el-date-picker
+          v-model="time"
+          type="datetimerange"
+          range-separator="-"
+          @change="changeTime"
+          start-placeholder="gt"
+          end-placeholder="lt">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
         <el-button type="primary" @click="onSubmit">query</el-button>
       </el-form-item>
     </el-form>
@@ -71,7 +81,7 @@
       </el-table-column>
     </el-table>
 
-    <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail && tableData.length>0">load more</el-button>
+    <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">load more</el-button>
   </div>
 </template>
 
@@ -82,6 +92,7 @@ export default {
     return {
       tableData: [],
       tail: false,
+      time: [],
       query: {
         offset: 0,
         size: 10,
@@ -105,9 +116,9 @@ export default {
             response.data.data.data.forEach(item => {
               _this.tableData.push(item)
             })
-            _this.offset += _this.size
+            _this.query.offset += _this.query.size
             console.log(_this.tableData)
-            if (_this.offset * _this.size >= response.data.count) {
+            if (_this.query.offset * _this.query.size >= response.data.data.count) {
               _this.tail = true
             }
           } else {
@@ -123,6 +134,17 @@ export default {
     alertStack (stack) {
       return stack.split(';').join('<br />')
     },
+    changeTime () {
+      const _this = this
+      let g = _this.time
+      if (g === null) {
+        _this.query.gt = ''
+        _this.query.lt = ''
+      } else {
+        _this.query.gt = g[0].getTime()
+        _this.query.lt = g[1].getTime()
+      }
+    },
 
     getData () {
       const _this = this
@@ -130,9 +152,9 @@ export default {
         .then(response => {
           if (response.data.code === 200) {
             _this.tableData = response.data.data.data
-            _this.offset += _this.pageSize
+            _this.query.offset += _this.query.size
             console.log(_this.tableData)
-            if (_this.offset * _this.size >= response.data.count) {
+            if (_this.query.offset * _this.query.size >= response.data.data.count) {
               _this.tail = true
             }
           } else {
