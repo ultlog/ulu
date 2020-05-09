@@ -1,88 +1,110 @@
 <template>
-  <div>
+  <el-container>
+    <el-header>
+    </el-header>
+    <el-main>
+      <div>
+        <el-form :inline="true" :model="query">
+          <el-form-item>
+            <el-input v-model="query.project" style="width: 100px"  @change="onSubmit" clearable placeholder="项目"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="query.module" style="width: 100px"  @change="onSubmit" clearable placeholder="模块"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="query.uuid" style="width: 150px" @change="onSubmit" clearable placeholder="服务唯一标识"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="query.level"  @change="onSubmit" clearable placeholder="日志级别"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="query.message" @change="onSubmit" clearable placeholder="日志信息"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="query.stack"  @change="onSubmit" clearable placeholder="堆栈信息"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-date-picker
+              v-model="time"
+              type="datetimerange"
+              range-separator="-"
+              @change="changeTime"
+              start-placeholder="起始时间"
+              end-placeholder="结束时间">
+            </el-date-picker>
+          </el-form-item>
+          <!--        <el-form-item>-->
+          <!--          <el-button type="primary" @click="onSubmit">query</el-button>-->
+          <!--        </el-form-item>-->
+        </el-form>
 
-    <el-form :inline="true" :model="query" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="query.project" clearable placeholder="project"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="query.module" clearable placeholder="module"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="query.uuid" clearable placeholder="uuid"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="query.level" clearable placeholder="level"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="query.message" clearable placeholder="message"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="query.stack" clearable placeholder="stack"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="time"
-          type="datetimerange"
-          range-separator="-"
-          @change="changeTime"
-          start-placeholder="gt"
-          end-placeholder="lt">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">query</el-button>
-      </el-form-item>
-    </el-form>
+        <el-table
+          :data="tableData"
+          border
+          :row-style="{height:'20px'}">
+          <el-table-column
+            prop="project"
+            label="项目"
+            align="center"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="module"
+            label="模块"
+            align="center"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="uuid"
+            align="center"
+            label="服务唯一标识"
+            width="200">
+          </el-table-column>
+          <el-table-column
+            prop="level"
+            align="center"
+            label="日志级别"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="message"
+            align="center"
+            label="日志信息">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" placement="bottom">
+                <div v-html="alertMessage(scope.row.message)" slot="content"></div>
+                <div v-if="scope.row.message.length>70">{{scope.row.message.substring(0,70)+'...'}}</div>
+                <div v-else>{{scope.row.message}}</div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="stack"
+            align="center"
+            label="堆栈信息">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" placement="left">
+                <div v-html="alertStack(scope.row.stack)" slot="content"></div>
+                <div>{{scope.row.stack.substring(0,60)+'...'}}</div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="createTime"
+            align="center"
+            label="产生时间"
+            width="200"
+            :formatter="formatter">
+          </el-table-column>
+        </el-table>
 
-    <el-table
-      :data="tableData"
-      border
-      :row-style="{height:'20px'}"
-      style="width: 100%">
-      <el-table-column
-        type="index"
-        width="50">
-      </el-table-column>
-      <el-table-column
-        prop="project"
-        label="项目"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="module"
-        label="模块"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="uuid"
-        label="服务唯一标识">
-      </el-table-column>
-      <el-table-column
-        prop="level"
-        label="日志级别">
-      </el-table-column>
-      <el-table-column
-        prop="message"
-        label="日志信息">
-      </el-table-column>
-      <el-table-column
-
-        prop="stack"
-        label="堆栈信息">
-
-        <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" placement="left">
-            <div v-html="alertStack(scope.row.stack)" slot="content"></div>
-            <div>{{scope.row.stack.substring(0,40)+'...'}}</div>
-          </el-tooltip>
-        </template>
-
-      </el-table-column>
-    </el-table>
-
-    <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">load more</el-button>
-  </div>
+        <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">load more</el-button>
+      </div>
+    </el-main>
+    <el-footer>
+      <el-button @click="github" type="primary" icon="el-icon-star-off" circle></el-button>
+    </el-footer>
+  </el-container>
 </template>
 
 <script>
@@ -130,9 +152,11 @@ export default {
       this.query.offset = 0
       this.getData()
     },
-
+    alertMessage (message) {
+      return "<div style='font-size: 15px;width: 500px;'>" + message + '</div>'
+    },
     alertStack (stack) {
-      return stack.split(';').join('<br />')
+      return "<div style='font-size: 15px;'>" + stack.split(';').join('<br />') + '</div>'
     },
     changeTime () {
       const _this = this
@@ -144,6 +168,10 @@ export default {
         _this.query.gt = g[0].getTime()
         _this.query.lt = g[1].getTime()
       }
+      this.onSubmit()
+    },
+    github () {
+      window.open('https://github.com/ultlog/ulu', '_blank')
     },
 
     getData () {
@@ -161,6 +189,19 @@ export default {
             _this.$message.error('服务器异常')
           }
         })
+    },
+    formatter (row, column) {
+      const date = new Date(row.createTime)
+      const dateNumFun = (num) => num < 10 ? `0${num}` : num
+      const [Y, M, D, h, m, s] = [
+        date.getFullYear(),
+        dateNumFun(date.getMonth() + 1),
+        dateNumFun(date.getDate()),
+        dateNumFun(date.getHours()),
+        dateNumFun(date.getMinutes()),
+        dateNumFun(date.getSeconds())
+      ]
+      return `${Y}-${M}-${D} ${h}:${m}:${s}`
     }
   }
 }
@@ -168,6 +209,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .el-main{
+    padding-left: 100px;
+    padding-right: 100px;
+  }
   h1, h2 {
     font-weight: normal;
   }
