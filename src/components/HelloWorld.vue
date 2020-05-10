@@ -83,7 +83,7 @@
             align="center"
             label="堆栈信息">
             <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" placement="left">
+              <el-tooltip class="item" effect="dark" placement="left" v-if="scope.row.stack!==null">
                 <div v-html="alertStack(scope.row.stack)" slot="content"></div>
                 <div>{{scope.row.stack.substring(0,60)+'...'}}</div>
               </el-tooltip>
