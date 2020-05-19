@@ -156,7 +156,7 @@ export default {
       return "<div style='font-size: 15px;width: 500px;'>" + message + '</div>'
     },
     alertStack (stack) {
-      return "<div style='font-size: 15px;'>" + stack.split(';').join('<br />') + '</div>'
+      return "<div style='font-size: 15px;height:600px;overflow-y:auto'>" + stack.split(';').join('<br />') + '</div>'
     },
     changeTime () {
       const _this = this
