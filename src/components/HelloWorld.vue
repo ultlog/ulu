@@ -132,7 +132,7 @@ export default {
   methods: {
     loadMore () {
       const _this = this
-      this.$axios.get('http://localhost:8080/api/v1/log', {params: _this.query})
+      this.$axios.get('/api/v1/log', {params: _this.query})
         .then(response => {
           if (response.data.code === 200) {
             response.data.data.data.forEach(item => {
@@ -176,7 +176,7 @@ export default {
 
     getData () {
       const _this = this
-      this.$axios.get('http://localhost:8080/api/v1/log', {params: _this.query})
+      this.$axios.get('/api/v1/log', {params: _this.query})
         .then(response => {
           if (response.data.code === 200) {
             _this.tableData = response.data.data.data
