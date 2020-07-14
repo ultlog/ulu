@@ -140,7 +140,7 @@ export default {
             })
             _this.query.offset += _this.query.size
             console.log(_this.tableData)
-            if (_this.query.offset * _this.query.size >= response.data.data.count) {
+            if (_this.query.offset + _this.query.size >= response.data.data.count) {
               _this.tail = true
             }
           } else {
@@ -182,7 +182,7 @@ export default {
             _this.tableData = response.data.data.data
             _this.query.offset += _this.query.size
             console.log(_this.tableData)
-            if (_this.query.offset * _this.query.size >= response.data.data.count) {
+            if (_this.query.offset + _this.query.size >= response.data.data.count) {
               _this.tail = true
             }
           } else {
