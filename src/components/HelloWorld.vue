@@ -98,7 +98,8 @@
           </el-table-column>
         </el-table>
 
-        <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">load more</el-button>
+        <el-button round style="margin: 20px;" @click="loadMore" v-if="!tail">加载更多</el-button>
+        <el-button round style="margin: 20px;" @click="reload" v-if="!tail">刷新</el-button>
       </div>
     </el-main>
     <el-footer>
@@ -130,6 +131,9 @@ export default {
     this.getData()
   },
   methods: {
+    reload () {
+      this.onSubmit()
+    },
     loadMore () {
       const _this = this
       this.$axios.get('/api/v1/log', {params: _this.query})
