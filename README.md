@@ -1,11 +1,15 @@
 # ulu
 
-### 安装ultlog-ui
+## 前言
+
+ulu全称未ultlog-ui，是ultlog系统中展示日志的web程序。
+
+## 安装
 
 #### 下载
-点击[此处](https://github.com/ultlog/ulu/releases)下载ulu.zip
+点击[此处](https://github.com/ultlog/ulu/releases)下载。
 
-``如果部署在windows系统，可以选择下载ulu-nginx.zip，其自带一个免安装版本的nginx。``
+``如果部署在windows系统，可以选择下载ulu-nginx，其自带一个免安装版本的nginx。``
 
 #### 安装
 将下载的文件解压到nginx的html路径下，目录结构为
@@ -17,9 +21,12 @@ location ^~ /api {
     proxy_pass http://{ula-host}:{ula-ip};
 }
 ````
-将其中ula-ip/port替换为[ula](https://github.com/ultlog/ula/blob/master/README.md)部署的地址和端口
+将其中ula-ip/port替换为ula服务部署的地址和端口
 
 #### 启动nginx
 ````shell script
 start nginx
 ````
+
+## 更多
+更多关于ulu的信息可以访问[ultlog文档中心](http://ultlog.com)查阅。
