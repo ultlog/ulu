@@ -1,32 +1,44 @@
-# ulu
+<h1 align="center">ultlog-ui</h1>
+<p align="center">
+  <a href="https://travis-ci.com/github/ultlog/ulu"><img src="https://travis-ci.com/ultlog/ulu.svg?branch=master"></a>
+  <a href="https://github.com/ultlog/ulu/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue"></a>
+  <a href="https://github.com/ultlog/ulu/pulls"><img src=https://img.shields.io/badge/pr-welcome-green"></a>
+  <a href="https://github.com/ultlog/ulu/releases/"><img src="https://img.shields.io/github/v/release/ultlog/ulu"></a>
+  <a href="https://github.com/ultlog/ulu/pulls?q=is%3Apr+is%3Aclosed"><img src="https://img.shields.io/github/issues-pr-closed/ultlog/ulu"></a>
+</p>
+<p align="center">
+The abbreviation of ultlog-ui is ulu, which is a web program that displays logs in the ultlog system.
+</p>
 
-## 前言
+## Install
 
-ulu全称未ultlog-ui，是ultlog系统中展示日志的web程序。
+#### Download
+Click [here](https://github.com/ultlog/ulu/releases) to download.
 
-## 安装
+``If install on a windows, you can choose to download ulu-nginx, which comes with a free installation version of nginx.``
 
-#### 下载
-点击[此处](https://github.com/ultlog/ulu/releases)下载。
+#### Install
+Unzip the downloaded file to the html path of nginx.The directory structure is
+````
+     nginx
+        | —— html
+              | —— index.html
+              | —— static/
+````
 
-``如果部署在windows系统，可以选择下载ulu-nginx，其自带一个免安装版本的nginx。``
-
-#### 安装
-将下载的文件解压到nginx的html路径下，目录结构为
-``{base_path}/nginx/html/index.html`` 和 ``{base_path}/nginx/html/static``
-
-修改nginx配置文件中的反向代理配置，添加如下代码
+Modify the nginx configuration file (normal nginx.conf), add the following code
 ````
 location ^~ /api {
     proxy_pass http://{ula-host}:{ula-ip};
 }
 ````
-将其中ula-ip/port替换为ula服务部署的地址和端口
+Replace ula-host/port with the address(or ip) and port of the ula service deployment.
 
-#### 启动nginx
+#### Start nginx
 ````shell script
 start nginx
 ````
 
-## 更多
-更多关于ulu的信息可以访问[ultlog文档中心](http://ultlog.com)查阅。
+## More
+#### [ulu中文文档](https://ultlog.com/2020/07/26/%E7%B3%BB%E7%BB%9F%E8%AF%B4%E6%98%8E/ulu/ulu/)
+#### [ultlog中文文档](https://ultlog.com/)
